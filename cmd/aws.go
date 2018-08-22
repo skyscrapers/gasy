@@ -17,10 +17,10 @@ import (
 	homedir "github.com/mitchellh/go-homedir"
 )
 
-func login(region string, token string, serialNumber string, account Account) {
+func login(region string, token string, serialNumber string, profile string, account Account) {
 	svc := sts.New(session.New(&aws.Config{
 		Region:      aws.String(region),
-		Credentials: credentials.NewSharedCredentials("", "default"),
+		Credentials: credentials.NewSharedCredentials("", profile),
 	}),
 	)
 

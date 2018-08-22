@@ -62,7 +62,7 @@ Please see the README for documentation: https://github.com/skyscrapers/gasy`,
 		region := viper.Get("aws.region")
 		boldGreen.Println("requesting credentials for " + account.Name)
 		// Request a token from STS using the code
-		login(region.(string), code, serialNumber, account)
+		login(region.(string), code, serialNumber, profile, account)
 	},
 }
 
