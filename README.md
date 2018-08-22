@@ -30,6 +30,33 @@ Flags:
 Use "gasy [command] --help" for more information about a command.
 ```
 
+Gasy expects 1 argument, the account number. You can view a list of available accounts by running `gasy accounts`
+
+### Example
+
+```bash
+gasy 1
+Using config file: /Users/dev/.gasy.toml
+Please touch your YubiKey...
+requesting credentials for Dev-account
+Credentials written to profile!
+
+export AWS_PROFILE=Dev-account
+
+URL: https://signin.aws.amazon.com/federation?Action=login&...
+```
+
+```bash
+gasy accounts
+Using config file: /Users/sam/.gasy.toml
++----+-------------------------+--------------------------------+--------------+
+| #  |          NAME           |          DESCRIPTION           |      ID      |
++----+-------------------------+--------------------------------+--------------+
+|  0 | account1                | Main account                   | 123456789012 |
+|  1 | account2                | test account                   | 123456789098 |
++----+-------------------------+--------------------------------+--------------+
+```
+
 ## Configuration
 
 gasy can be configured by passing the required flags (see `gasy -h`).
