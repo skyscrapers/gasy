@@ -32,11 +32,14 @@ func login(region string, token string, serialNumber string, profile string, ass
 
 	input := &sts.AssumeRoleInput{
 		DurationSeconds: aws.Int64(3600),
-		ExternalId:      aws.String(account.SID),
 		RoleArn:         aws.String("arn:aws:iam::" + account.ID + ":role/" + assumedRoleName),
 		RoleSessionName: aws.String("gasy" + user.Username),
 		SerialNumber:    aws.String(serialNumber),
 		TokenCode:       aws.String(token),
+	}
+
+	if account.SID != "" {
+		input.SetExternalId(account.SID)
 	}
 
 	result, err := svc.AssumeRole(input)
