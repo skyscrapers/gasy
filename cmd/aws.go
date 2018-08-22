@@ -17,7 +17,7 @@ import (
 	homedir "github.com/mitchellh/go-homedir"
 )
 
-func login(region string, token string, serialNumber string, profile string, account Account) {
+func login(region string, token string, serialNumber string, profile string, assumedRoleName string, account Account) {
 	svc := sts.New(session.New(&aws.Config{
 		Region:      aws.String(region),
 		Credentials: credentials.NewSharedCredentials("", profile),
@@ -32,7 +32,8 @@ func login(region string, token string, serialNumber string, profile string, acc
 
 	input := &sts.AssumeRoleInput{
 		DurationSeconds: aws.Int64(3600),
-		RoleArn:         aws.String("arn:aws:iam::" + account.ID + ":role/skyscrapers_full_operators"),
+		ExternalId:      aws.String(account.SID),
+		RoleArn:         aws.String("arn:aws:iam::" + account.ID + ":role/" + assumedRoleName),
 		RoleSessionName: aws.String("gasy" + user.Username),
 		SerialNumber:    aws.String(serialNumber),
 		TokenCode:       aws.String(token),

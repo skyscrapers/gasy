@@ -31,6 +31,7 @@ var profile string
 var serialNumber string
 var slotName string
 var clientListLocation string
+var assumedRolename string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -62,7 +63,7 @@ Please see the README for documentation: https://github.com/skyscrapers/gasy`,
 		region := viper.Get("aws.region")
 		boldGreen.Println("requesting credentials for " + account.Name)
 		// Request a token from STS using the code
-		login(region.(string), code, serialNumber, profile, account)
+		login(region.(string), code, serialNumber, profile, assumedRolename, account)
 	},
 }
 
@@ -83,6 +84,7 @@ func init() {
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.gasy.toml)")
 	rootCmd.PersistentFlags().StringVarP(&region, "region", "r", "eu-west-1", "region to use with AWS")
+	rootCmd.PersistentFlags().StringVarP(&assumedRolename, "role", "R", "", "which AWS role to assume in the targetted account")
 	rootCmd.PersistentFlags().StringVarP(&profile, "profile", "p", "", "which AWS profile to use to perform the login (default is default)")
 	rootCmd.PersistentFlags().StringVarP(&serialNumber, "serialnumber", "s", "", "serial number of your AWS MFA device")
 	rootCmd.PersistentFlags().StringVarP(&slotName, "slotname", "S", "", "Name of your YubiKey ath slot")
@@ -147,6 +149,15 @@ func initConfig() {
 			os.Exit(1)
 		} else {
 			clientListLocation = viper.Get("aws.clientListLocation").(string)
+		}
+	}
+
+	if assumedRolename == "" {
+		if viper.Get("aws.assumedRoleName") == nil {
+			fmt.Println("No assumedRoleName configured")
+			os.Exit(1)
+		} else {
+			assumedRolename = viper.Get("aws.assumedRoleName").(string)
 		}
 	}
 
