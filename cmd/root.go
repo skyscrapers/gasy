@@ -83,7 +83,7 @@ func init() {
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.gasy.toml)")
 	rootCmd.PersistentFlags().StringVarP(&region, "region", "r", "eu-west-1", "region to use with AWS")
-	rootCmd.PersistentFlags().StringVarP(&profile, "profile", "p", "default", "which AWS profile to use to perform the login")
+	rootCmd.PersistentFlags().StringVarP(&profile, "profile", "p", "", "which AWS profile to use to perform the login (default is default)")
 	rootCmd.PersistentFlags().StringVarP(&serialNumber, "serialnumber", "s", "", "serial number of your AWS MFA device")
 	rootCmd.PersistentFlags().StringVarP(&slotName, "slotname", "S", "", "Name of your YubiKey ath slot")
 	rootCmd.PersistentFlags().StringVarP(&clientListLocation, "client-list-location", "c", "", "Path to the json client list")
@@ -111,7 +111,12 @@ func initConfig() {
 
 	// populate defaults
 	viper.SetDefault("aws.region", "eu-west-1")
-	viper.SetDefault("aws.profile", "default")
+
+	// if the profile is not set by a flag, use the one in the config file
+	if profile == "" {
+		viper.SetDefault("aws.profile", "default")
+		profile = viper.Get("aws.profile").(string)
+	}
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
