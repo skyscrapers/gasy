@@ -48,7 +48,7 @@ URL: https://signin.aws.amazon.com/federation?Action=login&...
 
 ```bash
 gasy accounts
-Using config file: /Users/sam/.gasy.toml
+Using config file: /Users/dev/.gasy.toml
 +----+-------------------------+--------------------------------+--------------+
 | #  |          NAME           |          DESCRIPTION           |      ID      |
 +----+-------------------------+--------------------------------+--------------+
