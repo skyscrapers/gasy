@@ -44,6 +44,27 @@ mfaSerial = "arn:aws:iam::123456789012:mfa/user"
 slotName = "Amazon Web Services:user@account"
 ```
 
+The clientlist is expected to be a json file using the following format:
+```json
+{
+  "accounts": [
+    {
+      "id": "123456789012",
+      "name": "account1",
+      "sid": "91bb981a-12if-475a-a940-fc67abcddf10",
+      "description": "Main account"
+    },
+    {
+      "id": "123456789098",
+      "name": "account2",
+      "sid": null,
+      "description": "test account"
+    }
+  ]
+}
+
+```
+
 ## Dependencies
 
 Gasy depends on the `ykman` CLI tool provided by YubiCo.
