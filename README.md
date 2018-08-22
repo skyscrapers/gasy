@@ -62,6 +62,7 @@ Using config file: /Users/dev/.gasy.toml
 gasy can be configured by passing the required flags (see `gasy -h`).
 You can also write some of the parameters in a configuration file:
 `~/.gasy.toml`:
+
 ```toml
 [aws]
 clientListLocation = "/Users/dev/aws-accounts.json"
@@ -72,6 +73,7 @@ slotName = "Amazon Web Services:user@account"
 ```
 
 The clientlist is expected to be a json file using the following format:
+
 ```json
 {
   "accounts": [
