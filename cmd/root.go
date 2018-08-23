@@ -32,6 +32,7 @@ var serialNumber string
 var slotName string
 var clientListLocation string
 var assumedRolename string
+var manualToken string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -46,25 +47,29 @@ Please see the README for documentation: https://github.com/skyscrapers/gasy`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		account := getAccount(args[0])
-
-		// Generate an OATH code using the given slot name.
-		// You may need to touch your YubiKey device if the
-		// slot is configured to require touch.
 		boldGreen := color.New(color.FgGreen, color.Bold)
-		boldGreen.Println("Please touch your YubiKey...")
 
-		code, err := ykman.Generate(slotName)
-
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
+		code := getCode(manualToken, boldGreen)
 
 		region := viper.Get("aws.region")
 		boldGreen.Println("requesting credentials for " + account.Name)
 		// Request a token from STS using the code
 		login(region.(string), code, serialNumber, profile, assumedRolename, account)
 	},
+}
+
+func getCode(manualToken string, boldGreen *color.Color) (token string) {
+	if manualToken != "" {
+		return manualToken
+	}
+	boldGreen.Println("Please touch your YubiKey...")
+	token, err := ykman.Generate(slotName)
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	return token
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -89,6 +94,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&serialNumber, "serialnumber", "s", "", "serial number of your AWS MFA device")
 	rootCmd.PersistentFlags().StringVarP(&slotName, "slotname", "S", "", "Name of your YubiKey ath slot")
 	rootCmd.PersistentFlags().StringVarP(&clientListLocation, "client-list-location", "c", "", "Path to the json client list")
+	rootCmd.PersistentFlags().StringVarP(&manualToken, "token", "t", "", "Token to use for authentication (non YubiKey)")
 }
 
 // initConfig reads in config file and ENV variables if set.
