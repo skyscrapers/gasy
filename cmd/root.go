@@ -136,7 +136,7 @@ func initConfig() {
 		}
 	}
 
-	if slotName == "" {
+	if slotName == "" && manualToken == "" {
 		if viper.Get("yubikey.slotName") == nil {
 			fmt.Println("No YubiKey slot name configured")
 			os.Exit(1)
