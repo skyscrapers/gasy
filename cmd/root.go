@@ -42,8 +42,6 @@ var rootCmd = &cobra.Command{
 
 Please see the README for documentation: https://github.com/skyscrapers/gasy`,
 	Args: cobra.ExactArgs(1),
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
 
 		account := getAccount(args[0])
@@ -84,9 +82,6 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.gasy.toml)")
 	rootCmd.PersistentFlags().StringVarP(&region, "region", "r", "eu-west-1", "region to use with AWS")
 	rootCmd.PersistentFlags().StringVarP(&assumedRolename, "role", "R", "", "which AWS role to assume in the targetted account")
