@@ -1,4 +1,6 @@
-# GO-AWS-STS-YubiKey (GASY)
+# GO-AWS-STS-YubiKey (GASY) - Deprecated
+
+:exclamation::exclamation: **DEPRECATED :exclamation::exclamation: - this project is deprecated and will be deleted in the near future. Most of its features can be found in other open source tools like [aws-vault](https://github.com/99designs/aws-vault).**
 
 A CLI tool to create AWS STS credentials and URLs using a YubiKey as your OTP.
 
